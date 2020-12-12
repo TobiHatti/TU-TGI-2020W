@@ -1,0 +1,80 @@
+####################################
+
+# R0: Invert k Bits
+# R1: Value at 0x0100
+# R2: Right Side 
+# R3: Left Side (Inv)
+# R4: Result
+# R7: Value 16
+# R8: Address 0x0100
+# R9: Counter
+# R10: Counter-Helper
+
+####################################
+
+# Set the value of R0 
+
+R0<-lsh(1+1)
+
+####################################
+
+# Load value from Memory 0x0100 == 256 == 0b0000000100000000
+R8<-lsh(1+1)
+R8<-lsh(R8+R8)
+R8<-lsh(R8+R8)
+R8<-lsh(R8+R8)
+MAR<-R8;rd
+rd;
+
+R7<-lsh(1+1)
+R7<-lsh(R7+R7)
+
+R2<-MBR
+R3<-R2
+
+# Shift left
+R9<-R0
+:lshloop
+R9; if Z goto .lshexit
+R2<-lsh(R2)
+R9<-R9+(-1)
+# Prepare value for next loop
+R7<-R7+(-1)
+goto .lshloop
+:lshexit
+
+# Shift back
+R9<-R0
+:lshbloop
+R9; if Z goto .lshbexit
+R2<-rsh(R2)
+R9<-R9+(-1)
+goto .lshbloop
+:lshbexit
+
+R3<-~R3
+
+# Shift right
+R9<-R7
+:rshloop
+R9+(-1); if N goto .rshexit
+R3<-rsh(R3)
+R9<-R9+(-1)
+goto .rshloop
+:rshexit
+
+# Shift back
+R9<-R7
+:rshbloop
+R9+(-1); if N goto .rshbexit
+R3<-lsh(R3)
+R9<-R9+(-1)
+goto .rshbloop
+:rshbexit
+
+# Calculate result
+R4<-R2+R3
+
+# Write value back to memory
+MAR<-R8; MBR<-R4; wr
+wr
