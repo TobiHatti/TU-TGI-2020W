@@ -1,0 +1,52 @@
+# R0: Start Value-Range
+# R1: End Value-Range
+# R2: Start Index-Range
+# R3: End Index-Range
+# R4: Current Value
+# R5: Replace Index
+# R6: Swap value
+
+R0<-0
+
+R1<-lsh(1+1)
+R1<-lsh(R1)
+R1<-R1+(-1)
+
+R2<-lsh(1+1)
+R2<-lsh(R2+R2)
+
+R3<-lsh(1+1)
+R3<-lsh(R3+1)
+R3<-lsh(R3+1)
+
+
+:loop
+	R1; if Z goto .end	
+	
+	# Read current value
+	MAR<-R1; rd;
+	rd;
+	R4<-MBR
+
+	# Read replace Index
+	MAR<-R2; rd;
+	rd;
+	R5<-MBR
+
+	# Read swap value
+	MAR<-R5; rd;
+	rd;
+	R6<-MBR
+
+	# Swap values
+	MAR<-R1; MBR<-R6; wr;
+	wr;
+	MAR<-R5; MBR<-R4; wr;
+	wr;
+
+	# Move to next entry in arrays
+	R1<-R1+(-1)
+	R2<-R2+1
+
+	goto .loop
+:end
