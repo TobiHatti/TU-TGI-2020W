@@ -1,0 +1,60 @@
+# R0: PositionCounter
+# R1: ValidationSequence
+# R2: ValidationTmp
+# R3: ShiftCounter
+# R4: ShiftCounterHelper
+# R5: LoadedValue
+
+R0<-0
+R1<-1
+
+R3<-lsh(1+1)
+R3<-lsh(R3+R3)
+R3<-R3+(-1)
+
+MAR<-0; rd;
+rd;
+R5<-MBR
+
+R5; if Z goto .endPosLoop
+
+:posLoop
+	# Loaded Value to work-register
+	R6<-R5
+	
+	R4<-R3
+	R9<-1
+	:lshLoop
+		R8<-~R4
+		R8+R9; if Z goto .endLshLoop
+		R6<-lsh(R6)
+		R9<-R9+1
+		goto .lshLoop
+	:endLshLoop
+
+	R4<-R3
+	R9<-1
+	:rshLoop
+		R8<-~R4
+		R8+R9; if Z goto .endRshLoop
+		R6<-rsh(R6)
+		R9<-R9+1
+		goto .rshLoop
+	:endRshLoop
+	
+	R0<-R0+1
+
+	R2<-~R1
+	R2<-R2+1
+	R2+R6; if Z goto .endPosLoop
+	
+	R1<-lsh(R1)
+
+	
+	R3<-R3+(-1)
+	goto .posLoop
+:endPosLoop
+
+R10<-~0
+MAR<-R10; MBR<-R0; wr;
+wr;
