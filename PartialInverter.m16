@@ -35,21 +35,21 @@ R3<-R2
 # Shift left
 R9<-R0
 :lshloop
-R9; if Z goto .lshexit
-R2<-lsh(R2)
-R9<-R9+(-1)
-# Prepare value for next loop
-R7<-R7+(-1)
-goto .lshloop
+	R9; if Z goto .lshexit
+	R2<-lsh(R2)
+	R9<-R9+(-1)
+	# Prepare value for next loop
+	R7<-R7+(-1)
+	goto .lshloop
 :lshexit
 
 # Shift back
 R9<-R0
 :lshbloop
-R9; if Z goto .lshbexit
-R2<-rsh(R2)
-R9<-R9+(-1)
-goto .lshbloop
+	R9; if Z goto .lshbexit
+	R2<-rsh(R2)
+	R9<-R9+(-1)
+	goto .lshbloop
 :lshbexit
 
 R3<-~R3
@@ -57,19 +57,19 @@ R3<-~R3
 # Shift right
 R9<-R7
 :rshloop
-R9+(-1); if N goto .rshexit
-R3<-rsh(R3)
-R9<-R9+(-1)
-goto .rshloop
+	R9+(-1); if N goto .rshexit
+	R3<-rsh(R3)
+	R9<-R9+(-1)
+	goto .rshloop
 :rshexit
 
 # Shift back
 R9<-R7
 :rshbloop
-R9+(-1); if N goto .rshbexit
-R3<-lsh(R3)
-R9<-R9+(-1)
-goto .rshbloop
+	R9+(-1); if N goto .rshbexit
+	R3<-lsh(R3)
+	R9<-R9+(-1)
+	goto .rshbloop
 :rshbexit
 
 # Calculate result
